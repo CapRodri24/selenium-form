@@ -3,9 +3,13 @@
 Basados en specs/spec.md
 """
 from datetime import date, timedelta
+import os
+
 import pytest
 from pages.formulario_page import FormularioPage
 
+
+EVIDENCIAS_DIR = "evidencias"
 
 HOY = date.today()
 FECHA_VALIDA = (HOY + timedelta(days=1)).strftime("%Y-%m-%d")
@@ -31,6 +35,10 @@ def _preparar(driver, nombre=NOMBRE_VALIDO, apellido=APELLIDO_VALIDO,
 def test_caso_01_todos_validos(driver):
     pagina = _preparar(driver)
     assert pagina.hay_exito(), "Se esperaba toast de 'Cita agendada correctamente'"
+
+    # Evidencia visual del caso exitoso
+    os.makedirs(EVIDENCIAS_DIR, exist_ok=True)
+    driver.save_screenshot(f"{EVIDENCIAS_DIR}/caso_01_exito.png")
 
 
 # ═══ CASOS 2-6 — Nombre inválido ═══
